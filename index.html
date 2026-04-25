@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Poll-It: Your interactive guide to understanding the election process, timelines, and steps. Learn about democracy through engaging visualizations and AI-powered assistance.">
+    <meta name="keywords" content="election process, voting education, democracy, civic education, voter guide, election timeline">
+    <meta name="author" content="Poll-It">
+    <title>Poll-It — Election Process Education Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader-content">
+            <div class="loader-icon">
+                <svg viewBox="0 0 100 100" class="ballot-svg">
+                    <rect x="20" y="10" width="60" height="80" rx="5" fill="none" stroke="currentColor" stroke-width="3" class="ballot-box"/>
+                    <line x1="35" y1="35" x2="50" y2="50" stroke="currentColor" stroke-width="4" stroke-linecap="round" class="check-1"/>
+                    <line x1="50" y1="50" x2="75" y2="25" stroke="currentColor" stroke-width="4" stroke-linecap="round" class="check-2"/>
+                    <rect x="30" y="60" width="40" height="4" rx="2" fill="currentColor" class="line-1"/>
+                    <rect x="30" y="70" width="30" height="4" rx="2" fill="currentColor" class="line-2"/>
+                </svg>
+            </div>
+            <h2 class="loader-title">Poll-It</h2>
+            <p class="loader-subtitle">Initializing Election Education Assistant...</p>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="navLogo">
+                <span class="logo-icon">🗳️</span>
+                <span class="logo-text">Poll-It</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+                <a href="#timeline" class="nav-link" data-section="timeline">Timeline</a>
+                <a href="#explore" class="nav-link" data-section="explore">Explore</a>
+                <a href="#simulator" class="nav-link" data-section="simulator">Simulator</a>
+                <a href="#quiz" class="nav-link" data-section="quiz">Quiz</a>
+                <a href="#glossary" class="nav-link" data-section="glossary">Glossary</a>
+                <a href="#global" class="nav-link" data-section="global">Global</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+                <button class="nav-cta" id="openChatBtn">
+                    <span class="cta-icon">💬</span>
+                    Ask AI
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Interactive Election Education
+            </div>
+            <h1 class="hero-title">
+                Understand the
+                <span class="gradient-text">Election Process</span>
+                Like Never Before
+            </h1>
+            <p class="hero-description">
+                Your comprehensive, interactive guide to democratic elections worldwide. 
+                Explore timelines, simulate voting, test your knowledge, and chat with our AI assistant.
+            </p>
+            <div class="hero-buttons">
+                <a href="#timeline" class="btn btn-primary">
+                    <span>Start Learning</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#simulator" class="btn btn-secondary">
+                    <span>Try Simulator</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="8">0</span>
+                    <span class="stat-label">Process Stages</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Quiz Questions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="195">0</span>
+                    <span class="stat-label">Countries Covered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="24">0</span><span class="stat-suffix">/7</span>
+                    <span class="stat-label">AI Assistant</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-cards">
+                <div class="float-card card-1">
+                    <div class="card-icon">📋</div>
+                    <div class="card-text">Register</div>
+                </div>
+                <div class="float-card card-2">
+                    <div class="card-icon">🗳️</div>
+                    <div class="card-text">Vote</div>
+                </div>
+                <div class="float-card card-3">
+                    <div class="card-icon">📊</div>
+                    <div class="card-text">Count</div>
+                </div>
+                <div class="float-card card-4">
+                    <div class="card-icon">🏛️</div>
+                    <div class="card-text">Govern</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-dot"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline Section -->
+    <section id="timeline" class="section timeline-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Step by Step</span>
+                <h2 class="section-title">The Election <span class="gradient-text">Timeline</span></h2>
+                <p class="section-subtitle">Follow the complete journey from voter registration to the declaration of results</p>
+            </div>
+
+            <div class="timeline-controls">
+                <button class="timeline-nav-btn" id="timelinePrev" aria-label="Previous">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="timeline-progress-bar">
+                    <div class="timeline-progress-fill" id="timelineProgress"></div>
+                    <div class="timeline-dots" id="timelineDots"></div>
+                </div>
+                <button class="timeline-nav-btn" id="timelineNext" aria-label="Next">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+
+            <div class="timeline-viewer" id="timelineViewer">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Deep Dive Section -->
+    <section id="explore" class="section explore-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Deep Dive</span>
+                <h2 class="section-title">Explore <span class="gradient-text">Every Aspect</span></h2>
+                <p class="section-subtitle">Tap into detailed modules covering every facet of the electoral process</p>
+            </div>
+
+            <div class="explore-tabs">
+                <button class="explore-tab active" data-tab="voter-rights">🛡️ Voter Rights</button>
+                <button class="explore-tab" data-tab="electoral-systems">⚖️ Electoral Systems</button>
+                <button class="explore-tab" data-tab="campaign-finance">💰 Campaign Finance</button>
+                <button class="explore-tab" data-tab="election-security">🔒 Election Security</button>
+                <button class="explore-tab" data-tab="media-role">📺 Media & Elections</button>
+                <button class="explore-tab" data-tab="accessibility">♿ Accessibility</button>
+            </div>
+
+            <div class="explore-content" id="exploreContent">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Voting Simulator Section -->
+    <section id="simulator" class="section simulator-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Hands-On</span>
+                <h2 class="section-title">Voting <span class="gradient-text">Simulator</span></h2>
+                <p class="section-subtitle">Experience the complete voting process from registration to casting your ballot</p>
+            </div>
+
+            <div class="simulator-container" id="simulatorContainer">
+                <div class="simulator-progress">
+                    <div class="sim-step active" data-step="1">
+                        <div class="sim-step-circle">1</div>
+                        <span>Register</span>
+                    </div>
+                    <div class="sim-step-line"></div>
+                    <div class="sim-step" data-step="2">
+                        <div class="sim-step-circle">2</div>
+                        <span>Verify</span>
+                    </div>
+                    <div class="sim-step-line"></div>
+                    <div class="sim-step" data-step="3">
+                        <div class="sim-step-circle">3</div>
+                        <span>Select</span>
+                    </div>
+                    <div class="sim-step-line"></div>
+                    <div class="sim-step" data-step="4">
+                        <div class="sim-step-circle">4</div>
+                        <span>Vote</span>
+                    </div>
+                    <div class="sim-step-line"></div>
+                    <div class="sim-step" data-step="5">
+                        <div class="sim-step-circle">5</div>
+                        <span>Confirm</span>
+                    </div>
+                </div>
+
+                <div class="simulator-screen" id="simulatorScreen">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section quiz-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Test Yourself</span>
+                <h2 class="section-title">Election <span class="gradient-text">Knowledge Quiz</span></h2>
+                <p class="section-subtitle">Challenge yourself with questions about elections, democracy, and civic participation</p>
+            </div>
+
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-start" id="quizStart">
+                    <div class="quiz-categories">
+                        <h3>Choose a Category</h3>
+                        <div class="category-grid">
+                            <button class="category-card" data-category="basics">
+                                <span class="cat-icon">📚</span>
+                                <span class="cat-name">Election Basics</span>
+                                <span class="cat-count">10 Questions</span>
+                            </button>
+                            <button class="category-card" data-category="process">
+                                <span class="cat-icon">🔄</span>
+                                <span class="cat-name">Voting Process</span>
+                                <span class="cat-count">10 Questions</span>
+                            </button>
+                            <button class="category-card" data-category="systems">
+                                <span class="cat-icon">⚖️</span>
+                                <span class="cat-name">Electoral Systems</span>
+                                <span class="cat-count">10 Questions</span>
+                            </button>
+                            <button class="category-card" data-category="history">
+                                <span class="cat-icon">📜</span>
+                                <span class="cat-name">Election History</span>
+                                <span class="cat-count">10 Questions</span>
+                            </button>
+                            <button class="category-card" data-category="global">
+                                <span class="cat-icon">🌍</span>
+                                <span class="cat-name">Global Elections</span>
+                                <span class="cat-count">10 Questions</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="quiz-game hidden" id="quizGame">
+                    <div class="quiz-header">
+                        <div class="quiz-info">
+                            <span class="quiz-category-label" id="quizCategoryLabel"></span>
+                            <span class="quiz-question-count" id="quizQuestionCount">Question 1/10</span>
+                        </div>
+                        <div class="quiz-timer" id="quizTimer">
+                            <svg width="40" height="40" viewBox="0 0 40 40">
+                                <circle cx="20" cy="20" r="18" fill="none" stroke="var(--border)" stroke-width="3"/>
+                                <circle cx="20" cy="20" r="18" fill="none" stroke="var(--accent)" stroke-width="3" 
+                                    stroke-dasharray="113.1" stroke-dashoffset="0" id="timerCircle"
+                                    transform="rotate(-90 20 20)"/>
+                            </svg>
+                            <span id="timerText">30</span>
+                        </div>
+                    </div>
+                    <div class="quiz-score-bar">
+                        <div class="score-item correct-count">
+                            <span>✅</span>
+                            <span id="correctCount">0</span>
+                        </div>
+                        <div class="score-item streak-count">
+                            <span>🔥</span>
+                            <span id="streakCount">0</span>
+                        </div>
+                        <div class="score-item score-points">
+                            <span>⭐</span>
+                            <span id="scorePoints">0</span>
+                        </div>
+                    </div>
+                    <div class="quiz-question" id="quizQuestion">
+                        <h3 id="questionText"></h3>
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div class="quiz-explanation hidden" id="quizExplanation">
+                        <div class="explanation-content" id="explanationContent"></div>
+                    </div>
+                    <button class="btn btn-primary quiz-next hidden" id="quizNextBtn">Next Question →</button>
+                </div>
+                <div class="quiz-results hidden" id="quizResults">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Glossary Section -->
+    <section id="glossary" class="section glossary-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Reference</span>
+                <h2 class="section-title">Election <span class="gradient-text">Glossary</span></h2>
+                <p class="section-subtitle">A comprehensive dictionary of electoral terms and concepts</p>
+            </div>
+
+            <div class="glossary-search">
+                <div class="search-input-wrapper">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="glossarySearch" placeholder="Search terms..." class="search-input">
+                </div>
+                <div class="glossary-filters" id="glossaryFilters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="A-D">A-D</button>
+                    <button class="filter-btn" data-filter="E-H">E-H</button>
+                    <button class="filter-btn" data-filter="I-L">I-L</button>
+                    <button class="filter-btn" data-filter="M-P">M-P</button>
+                    <button class="filter-btn" data-filter="Q-T">Q-T</button>
+                    <button class="filter-btn" data-filter="U-Z">U-Z</button>
+                </div>
+            </div>
+
+            <div class="glossary-grid" id="glossaryGrid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Elections Comparison -->
+    <section id="global" class="section global-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Worldwide</span>
+                <h2 class="section-title">Global Election <span class="gradient-text">Comparison</span></h2>
+                <p class="section-subtitle">Compare how different democracies conduct their elections</p>
+            </div>
+
+            <div class="global-map-container">
+                <div class="country-selector">
+                    <div class="country-cards" id="countryCards">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+                <div class="country-detail" id="countryDetail">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <div class="comparison-arena-container">
+                <h3 class="comparison-title" style="text-align: center; margin-bottom: 2rem;">Head-to-Head Comparison</h3>
+                <div class="comparison-selectors">
+                    <select id="compareCountry1" class="compare-select">
+                        <option value="india">🇮🇳 India</option>
+                        <option value="usa">🇺🇸 United States</option>
+                        <option value="uk">🇬🇧 United Kingdom</option>
+                        <option value="australia">🇦🇺 Australia</option>
+                        <option value="germany">🇩🇪 Germany</option>
+                    </select>
+                    <div class="vs-selector-badge">VS</div>
+                    <select id="compareCountry2" class="compare-select">
+                        <option value="usa">🇺🇸 United States</option>
+                        <option value="india">🇮🇳 India</option>
+                        <option value="uk">🇬🇧 United Kingdom</option>
+                        <option value="australia">🇦🇺 Australia</option>
+                        <option value="germany">🇩🇪 Germany</option>
+                    </select>
+                </div>
+                <div class="comparison-arena" id="comparisonArena">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <span class="logo-icon">🗳️</span>
+                    <span class="logo-text">Poll-It</span>
+                    <p class="footer-tagline">Empowering citizens through election education</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Learn</h4>
+                        <a href="#timeline">Election Timeline</a>
+                        <a href="#explore">Deep Dive Topics</a>
+                        <a href="#glossary">Glossary</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Practice</h4>
+                        <a href="#simulator">Voting Simulator</a>
+                        <a href="#quiz">Knowledge Quiz</a>
+                        <a href="#global">Global Comparison</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <a href="#" onclick="openChat()">AI Assistant</a>
+                        <a href="https://eci.gov.in" target="_blank" rel="noopener">ECI Official</a>
+                        <a href="https://www.un.org/en/global-issues/democracy" target="_blank" rel="noopener">UN Democracy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Poll-It. Built for democratic education. All rights reserved.</p>
+                <div class="footer-social">
+                    <span>Made with ❤️ for democracy</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">🤖</div>
+                <div>
+                    <h4>Poll-It AI Assistant</h4>
+                    <span class="chat-status">● Online</span>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button class="chat-minimize" id="chatMinimize" aria-label="Minimize chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <p>👋 Hello! I'm your Election Education AI Assistant. I can help you understand:</p>
+                    <ul>
+                        <li>How elections work in different countries</li>
+                        <li>Voter registration & eligibility</li>
+                        <li>Electoral systems & voting methods</li>
+                        <li>Election security & integrity</li>
+                        <li>Rights & responsibilities of voters</li>
+                    </ul>
+                    <p>What would you like to learn about?</p>
+                </div>
+            </div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button class="suggestion-chip" data-query="How does voter registration work?">📋 Voter Registration</button>
+            <button class="suggestion-chip" data-query="Explain the different types of electoral systems">⚖️ Electoral Systems</button>
+            <button class="suggestion-chip" data-query="What happens on election day?">🗳️ Election Day</button>
+            <button class="suggestion-chip" data-query="How are votes counted and verified?">📊 Vote Counting</button>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chatInput" placeholder="Ask me anything about elections..." class="chat-input">
+            <button id="chatSend" class="chat-send" aria-label="Send message">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Toggle Button -->
+    <button class="chat-toggle" id="chatToggle" aria-label="Open chat">
+        <span class="chat-toggle-icon">💬</span>
+        <span class="chat-toggle-badge" id="chatBadge">1</span>
+    </button>
+
+    <!-- Progress Tracker Removed -->
+
+    <!-- Accessibility Panel -->
+    <div class="accessibility-panel" id="accessibilityPanel">
+        <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Accessibility options">
+            ♿
+        </button>
+        <div class="accessibility-menu hidden" id="accessibilityMenu">
+            <h4>Accessibility</h4>
+            <label class="acc-option">
+                <input type="checkbox" id="highContrast"> High Contrast
+            </label>
+            <label class="acc-option">
+                <input type="checkbox" id="largeText"> Large Text
+            </label>
+            <label class="acc-option">
+                <input type="checkbox" id="reduceMotion"> Reduce Motion
+            </label>
+            <label class="acc-option">
+                <input type="checkbox" id="dyslexicFont"> Dyslexia-Friendly Font
+            </label>
+            <div class="acc-option">
+                <label>Text Size</label>
+                <input type="range" id="textSizeSlider" min="80" max="150" value="100" class="acc-slider">
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
