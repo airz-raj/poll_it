@@ -1,3 +1,5 @@
+import { electionData } from './data.js';
+
 "use strict";
 
 /**

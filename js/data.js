@@ -1,4 +1,4 @@
-const electionData = {
+export const electionData = {
     timeline: [
         {
             title: "Pre-Election Phase & Planning",

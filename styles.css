@@ -195,6 +195,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
 .country-flag { font-size: 2rem; }
 .country-detail { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; padding: 2rem; }
 .comparison-arena-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; padding: 2rem; }
+.arena-title { text-align: center; margin-bottom: 2rem; }
 .comparison-selectors { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 3rem; position: relative; }
 .compare-select { background: var(--bg-color); border: 2px solid var(--border-color); color: var(--text-primary); padding: 0.75rem 1.5rem; border-radius: 999px; font-size: 1.1rem; font-weight: 600; outline: none; transition: border-color 0.2s; cursor: pointer; appearance: none; }
 .compare-select:hover, .compare-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }

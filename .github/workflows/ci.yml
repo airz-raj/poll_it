@@ -18,5 +18,11 @@ jobs:
       with:
         node-version: '18.x'
         
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Run Linter
+      run: npm run lint --if-present
+        
     - name: Run Unit Tests
-      run: node tests/data.test.js
+      run: npm test
