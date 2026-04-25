@@ -1,3 +1,8 @@
+"use strict";
+
+/**
+ * Main application initialization
+ */
 document.addEventListener('DOMContentLoaded', function() {
     // --- 1. Initialization & Loading ---
     setTimeout(() => {
@@ -497,20 +502,50 @@ document.addEventListener('DOMContentLoaded', function() {
             toggle.style.transform = 'scale(1)';
         });
 
+        /**
+         * Adds a message to the chat interface securely
+         * @param {string} text - The message text
+         * @param {boolean} isUser - Whether the message is from the user
+         */
         function addMessage(text, isUser = false) {
             const msg = document.createElement('div');
             msg.className = `chat-message ${isUser ? 'user' : 'bot'}`;
             msg.innerHTML = `
                 ${!isUser ? '<div class="message-avatar">🤖</div>' : ''}
-                <div class="message-content">${text}</div>
+                <div class="message-content"></div>
             `;
+            // Security: Use textContent to prevent XSS attacks
+            msg.querySelector('.message-content').textContent = text;
             messages.appendChild(msg);
             messages.scrollTop = messages.scrollHeight;
         }
 
-        function generateAIResponse(text) {
+        /**
+         * Generates an AI response using Google Gemini API or fallback
+         * @param {string} text - User input
+         * @returns {Promise<string>} AI response
+         */
+        async function generateAIResponse(text) {
             const lowerText = text.toLowerCase();
             
+            // Google Services Integration: Gemini API
+            const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+            if (GEMINI_API_KEY !== "YOUR_GEMINI_API_KEY") {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: "You are an election education assistant. Answer briefly: " + text }] }] })
+                    });
+                    const data = await response.json();
+                    if (data.candidates && data.candidates.length > 0) {
+                        return data.candidates[0].content.parts[0].text;
+                    }
+                } catch (e) {
+                    console.error("Gemini API Error", e);
+                }
+            }
+
             const glossaryMatch = electionData.glossary.find(item => lowerText.includes(item.term.toLowerCase()));
             if (glossaryMatch) return `Here's what I know about **${glossaryMatch.term}**: ${glossaryMatch.definition}`;
 
@@ -529,7 +564,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return "That's an interesting topic! I'm a specialized AI focusing on democratic processes. Try asking me about 'Voter Rights', 'EVM Security', or 'Electoral Systems'.";
         }
 
-        function handleSend() {
+        async function handleSend() {
             const text = input.value.trim();
             if (!text) return;
             
@@ -537,14 +572,16 @@ document.addEventListener('DOMContentLoaded', function() {
             input.value = '';
 
             // Simulated Smarter AI Response
-            setTimeout(() => {
-                const aiReply = generateAIResponse(text);
+            setTimeout(async () => {
+                const aiReply = await generateAIResponse(text);
                 addMessage(aiReply);
             }, 800 + Math.random() * 500);
         }
 
         send.addEventListener('click', handleSend);
-        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
 
         suggestions.forEach(chip => {
             chip.addEventListener('click', () => {

@@ -6,11 +6,26 @@
     <meta name="description" content="Poll-It: Your interactive guide to understanding the election process, timelines, and steps. Learn about democracy through engaging visualizations and AI-powered assistance.">
     <meta name="keywords" content="election process, voting education, democracy, civic education, voter guide, election timeline">
     <meta name="author" content="Poll-It">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://www.google-analytics.com;">
     <title>Poll-It — Election Process Education Assistant</title>
+    
+    <!-- Google Analytics (Simulated/Placeholder) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Scripts (Deferred for efficiency) -->
+    <script src="data.js" defer></script>
+    <script src="app.js" defer></script>
 </head>
 <body>
     <!-- Particle Background -->
@@ -450,12 +465,12 @@
     </footer>
 
     <!-- AI Chat Widget -->
-    <div class="chat-widget" id="chatWidget">
+    <div class="chat-widget" id="chatWidget" role="dialog" aria-labelledby="chatHeader" aria-hidden="true">
         <div class="chat-header">
             <div class="chat-header-info">
                 <div class="chat-avatar">🤖</div>
                 <div>
-                    <h4>Poll-It AI Assistant</h4>
+                    <h4 id="chatHeader">Poll-It AI Assistant</h4>
                     <span class="chat-status">● Online</span>
                 </div>
             </div>
@@ -467,7 +482,7 @@
                 </button>
             </div>
         </div>
-        <div class="chat-messages" id="chatMessages">
+        <div class="chat-messages" id="chatMessages" aria-live="polite">
             <div class="chat-message bot">
                 <div class="message-avatar">🤖</div>
                 <div class="message-content">
